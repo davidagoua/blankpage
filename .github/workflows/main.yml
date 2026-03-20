@@ -8,11 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container: node:22
     steps:
       - uses: actions/checkout@v3
-        with:
-          node-version: 22
       - name: setup ssh keys and permissions
         run: |
           mkdir -p ~/.ssh/
