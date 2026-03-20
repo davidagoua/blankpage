@@ -11,10 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: setup ssh keys and permissions
-        run: |
-          mkdir -p ~/.ssh/
-          echo "{{ secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa && chmod 600  ~/.ssh/id_rsa
-          ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: "{{ secrets.SSH_PRIVATE_KEY}}"
+        
+      - name: scan key
+        run: ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
       - name: pull and restart compose
         run: |
           ssh -i ~/.ssh/id_rsa root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
