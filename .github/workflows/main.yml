@@ -16,4 +16,4 @@ jobs:
           echo "{{ secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa && chmod 660  ~/.ssh/id_rsa
       - name: pull and restart compose
         run: |
-          ssh -i ~/.ssh/id_rsa root@songon.space " cd /home/ubuntu/blankpage && git pull && docker compose restart"
+          ssh -i ~/.ssh/id_rsa root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
