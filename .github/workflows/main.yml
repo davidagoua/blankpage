@@ -16,7 +16,7 @@ jobs:
       - name: setup ssh keys and permissions
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: "{{ secrets.SSH_PRIVATE_KEY}}"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY}}
         
       - name: scan key
         run: ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
