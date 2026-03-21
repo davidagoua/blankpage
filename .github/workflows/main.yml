@@ -22,4 +22,4 @@ jobs:
         run: ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
       - name: pull and restart compose
         run: |
-          ssh -i ~/.ssh/id_rsa root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
+          ssh  root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
