@@ -13,10 +13,18 @@ jobs:
       - name: setup ssh keys and permissions
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: "{{ secrets.SSH_PRIVATE_KEY}}"
-        
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY}}
       - name: scan key
         run: ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
-      - name: pull and restart compose
-        run: |
-          ssh -i ~/.ssh/id_rsa root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
+      - name: Deploy to production
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: songon.space
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/blankpage
+            git pull
+            docker compose up -d
+      - name: checking
+        run: docker compose ps
