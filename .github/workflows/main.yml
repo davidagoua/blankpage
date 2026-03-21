@@ -10,16 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Debug SSH
-        run: |
-          echo "${{secrets.SSH_PRIVATE_KEY}} | ${{ secrets.GITHUB_TOKEN }}"
       - name: setup ssh keys and permissions
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY}}
-        
       - name: scan key
         run: ssh-keyscan -H songon.space >> ~/.ssh/known_hosts
-      - name: pull and restart compose
-        run: |
-          ssh  root@songon.space "cd /home/ubuntu/blankpage && git pull && docker compose restart"
+      - name: Deploy to production
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: songon.space
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/blankpage
+            git pull
+            docker compose up -d
