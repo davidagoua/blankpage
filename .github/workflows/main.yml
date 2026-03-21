@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Debug SSH
+        run: |
+          ssh -vT git@github.com
+          ls -la ~/.ssh/
+          cat ~/.ssh/known_hosts
       - name: setup ssh keys and permissions
         uses: webfactory/ssh-agent@v0.8.0
         with:
