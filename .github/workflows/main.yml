@@ -20,5 +20,14 @@ jobs:
             cd /home/ubuntu/blankpage
             git pull
             docker compose up -d
-      - name: checking
-        run: docker compose ps
+      - name: Checking docker status
+        uses: c-schicho/SSH-Action@v1
+        with:
+          host: songon.space
+          user: root
+          port: 22
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          command: |
+            docker compose ps
+            docker compose logs
+
